@@ -40,7 +40,6 @@ const httpInterceptor = {
 }
 uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
-console.log(123465)
 /**
  * 请求函数
  * @param  UniApp.RequestOptions
