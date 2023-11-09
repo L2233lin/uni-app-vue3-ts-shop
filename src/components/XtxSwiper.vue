@@ -8,6 +8,7 @@ const activeIndex = ref(0)
 
 // 当 swiper 下标发生变化时触发
 const onChange: UniHelper.SwiperOnChange = (ev) => {
+    console.log(ev)
     // ! 非空断言，主观上排除掉空值情况
     activeIndex.value = ev.detail.current
 }
