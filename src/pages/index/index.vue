@@ -43,12 +43,25 @@ onLoad(() => {
   getHomeCategoryData()
   getHomeHotData()
 })
+
+// 下拉刷新状态
+const isTriggered = ref(false)
+// 自定义下拉刷新被触发
+const onRefresherrefresh = async () => {
+  // 开启动画
+  isTriggered.value = true
+  // 重置猜你喜欢组件数据
+  guessRef.value?.resetData() // 加载数据
+  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()]) // 关闭动画
+  isTriggered.value = false
+}
 </script>
 
 <template>
   <!-- 自定义导航栏 -->
   <CustomNavbar />
-  <scroll-view scroll-y class="scroll-view" @scrolltolower="onScrolltolower">
+  <scroll-view refresher-enabled @refresherrefresh="onRefresherrefresh" :refresher-triggered="isTriggered" scroll-y
+    class="scroll-view" @scrolltolower="onScrolltolower">
     <!-- 自定义轮播图 -->
     <XtxSwiper :list="bannerList" />
     <!-- 分类面板 -->
