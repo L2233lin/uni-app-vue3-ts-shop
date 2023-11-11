@@ -3,10 +3,12 @@ import type { BannerItem, CategoryItem, HotItem } from '@/types/home';
 import CustomNavbar from './components/CustomNavbar.vue'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
+import PageSkeleton from './components/PageSkeleton.vue'
 import { ref } from 'vue';
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home';
 import { onLoad } from '@dcloudio/uni-app';
 import type { XtxGuessInstance } from '@/types/component';
+
 
 // 获取轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -37,11 +39,14 @@ const onScrolltolower = () => {
   guessRef.value?.getMore()
 }
 
+// 是否加载中标记
+const isLoading = ref(false)
+
 // 页面加载
-onLoad(() => {
-  getHomeBannerData()
-  getHomeCategoryData()
-  getHomeHotData()
+onLoad(async () => {
+  isLoading.value = true
+  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  isLoading.value = false
 })
 
 // 下拉刷新状态
@@ -62,14 +67,17 @@ const onRefresherrefresh = async () => {
   <CustomNavbar />
   <scroll-view refresher-enabled @refresherrefresh="onRefresherrefresh" :refresher-triggered="isTriggered" scroll-y
     class="scroll-view" @scrolltolower="onScrolltolower">
-    <!-- 自定义轮播图 -->
-    <XtxSwiper :list="bannerList" />
-    <!-- 分类面板 -->
-    <CategoryPanel :list="categoryList" />
-    <!-- 热门推荐 -->
-    <HotPanel :list="hotList" />
-    <!-- 猜你喜欢 -->
-    <XtxGuess ref="guessRef" />
+    <PageSkeleton v-if="isLoading" />
+    <template v-else>
+      <!-- 自定义轮播图 -->
+      <XtxSwiper :list="bannerList" />
+      <!-- 分类面板 -->
+      <CategoryPanel :list="categoryList" />
+      <!-- 热门推荐 -->
+      <HotPanel :list="hotList" />
+      <!-- 猜你喜欢 -->
+      <XtxGuess ref="guessRef" />
+    </template>
   </scroll-view>
 </template>
 
