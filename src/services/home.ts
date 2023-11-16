@@ -36,7 +36,7 @@ export const getHomeHotAPI = () => {
     })
 }
 
-/**
+/* *
  * 猜你喜欢-小程序
  */
 export const getHomeGoodsGuessLikeAPI = (data?: PageParams) => {
