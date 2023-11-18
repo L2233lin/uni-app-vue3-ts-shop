@@ -7,7 +7,7 @@ import PageSkeleton from './components/PageSkeleton.vue'
 import { ref } from 'vue';
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home';
 import { onLoad } from '@dcloudio/uni-app';
-import type { XtxGuessInstance } from '@/types/component';
+import { useGuessList } from '@/composables';
 
 
 // 获取轮播图数据
@@ -31,13 +31,8 @@ const getHomeHotData = async () => {
   hotList.value = res.result
 }
 
-// 获取猜你喜欢组件实例
-const guessRef = ref<XtxGuessInstance>()
-
-// 滚动触底事件
-const onScrolltolower = () => {
-  guessRef.value?.getMore()
-}
+// 猜你喜欢组合式函数
+const { guessRef, onScrolltolower } = useGuessList()
 
 // 是否加载中标记
 const isLoading = ref(false)
