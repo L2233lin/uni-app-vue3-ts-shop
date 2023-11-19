@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getMemberProfileAPI } from '@/services/profile'
+import { useMemberStore } from '@/stores';
 import type { ProfileDetail } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -12,11 +13,50 @@ const profile = ref<ProfileDetail>()
 const getMemberProfileData = async () => {
   const res = await getMemberProfileAPI()
   profile.value = res.result
+  // 同步 Store 的头像和昵称，用于我的页面展示
+  memberStore.profile!.avatar = res.result.avatar
+  memberStore.profile!.nickname = res.result.nickname
 }
 
 onLoad(() => {
   getMemberProfileData()
 })
+
+const memberStore = useMemberStore()
+// 修改头像
+const onAvatarChange = () => {
+  // 调用拍照/选择图片
+  uni.chooseMedia({
+    // 文件个数
+    count: 1,
+    // 文件类型
+    mediaType: ['image'],
+    success: (res) => {
+      // 本地路径
+      const { tempFilePath } = res.tempFiles[0]
+      // 文件上传
+      uni.uploadFile({
+        url: '/member/profile/avatar', // [!code ++]
+        name: 'file', // 后端数据字段名  // [!code ++]
+        filePath: tempFilePath, // 新头像  // [!code ++]
+        success: (res) => {
+          // 判断状态码是否上传成功
+          if (res.statusCode === 200) {
+            // 提取头像
+            const { avatar } = JSON.parse(res.data).result
+            // 当前页面更新头像
+            profile.value!.avatar = avatar // [!code ++]
+            // 更新 Store 头像
+            memberStore.profile!.avatar = avatar // [!code ++]
+            uni.showToast({ icon: 'success', title: '更新成功' })
+          } else {
+            uni.showToast({ icon: 'error', title: '出现错误' })
+          }
+        },
+      })
+    },
+  })
+}
 </script>
 
 <template>
@@ -28,7 +68,7 @@ onLoad(() => {
     </view>
     <!-- 头像 -->
     <view class="avatar">
-      <view class="avatar-content">
+      <view @tap="onAvatarChange" class="avatar-content">
         <image class="image" :src="profile?.avatar" mode="aspectFill" />
         <text class="text">点击修改头像</text>
       </view>
