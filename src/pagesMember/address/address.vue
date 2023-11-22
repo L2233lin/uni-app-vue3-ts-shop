@@ -32,7 +32,7 @@ onShow(() => {
                 <text v-if="item.isDefault" class="badge">默认</text>
               </view>
               <view class="locate">{{ item.fullLocation }} {{ item.address }}</view>
-              <navigator class="edit" hover-class="none" :url="`/pagesMember/address-form/address-form?id=1`">
+              <navigator class="edit" hover-class="none" :url="`/pagesMember/address-form/address-form?id=${item.id}`">
                 修改
               </navigator>
             </view>
