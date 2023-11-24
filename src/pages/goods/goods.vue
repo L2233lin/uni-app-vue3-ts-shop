@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import AddressPanel from './components/AddressPanel.vue';
 import ServicePanel from './components/ServicePanel.vue';
 import PageSkeleton from './components/PageSkeleton.vue';
+import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -20,7 +21,25 @@ const query = defineProps<{
 const goods = ref<GoodsResult>()
 const getGoodsByIdData = async () => {
   const res = await getGoodsByIdAPI(query.id)
+  console.log(res);
+
   goods.value = res.result
+  // SKU组件所需格式
+  localdata.value = {
+    _id: res.result.id,
+    name: res.result.name,
+    goods_thumb: res.result.mainPictures[0],
+    spec_list: res.result.specs.map((v) => ({ name: v.name, list: v.values })),
+    sku_list: res.result.skus.map((v) => ({
+      _id: v.id,
+      goods_id: res.result.id,
+      goods_name: res.result.name,
+      image: v.picture,
+      price: v.price * 100, // 注意：需要乘以 100
+      stock: v.inventory,
+      sku_name_arr: v.specs.map((vv) => vv.valueName),
+    })),
+  }
 }
 
 // 轮播图变化时
@@ -60,12 +79,22 @@ onLoad(async () => {
   await getGoodsByIdData()
   isLoading.value = false
 })
+
+// 是否显示SKU组件
+const isShowSku = ref(false)
+// 商品信息
+const localdata = ref({} as SkuPopupLocaldata)
 </script>
 
 <template>
   <PageSkeleton v-if="isLoading" />
   <template v-else>
     <scroll-view scroll-y class="viewport">
+      <!-- SKU弹窗组件 -->
+      <vk-data-goods-sku-popup v-model="isShowSku" :localdata="localdata" />
+      <!-- 弹窗测试 -->
+      <button @tap="isShowSku = true">打开 SKU 弹窗</button>
+
       <!-- 基本信息 -->
       <view class="goods">
         <!-- 商品主图 -->
