@@ -7,7 +7,8 @@ import { computed, ref } from 'vue';
 import AddressPanel from './components/AddressPanel.vue';
 import ServicePanel from './components/ServicePanel.vue';
 import PageSkeleton from './components/PageSkeleton.vue';
-import type { SkuPopupInstanceType, SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import type { SkuPopupEvent, SkuPopupInstanceType, SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import { postMemberCartAPI } from '@/services/cart';
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -65,6 +66,15 @@ const selectArrText = computed(() => {
   return skuPopupRef.value?.selectArr?.join(' ').trim() || '请选择商品规格'
 })
 
+// 加入购物车事件
+const onAddCart = async (ev: SkuPopupEvent) => {
+  console.log(ev);
+
+  await postMemberCartAPI({ skuId: ev._id, count: ev.buy_num })
+  uni.showToast({ title: '添加成功' })
+  isShowSku.value = false
+}
+
 // 轮播图变化时
 const currentIndex = ref(0)
 const onChange: UniHelper.SwiperOnChange = (ev) => {
@@ -119,7 +129,7 @@ const localdata = ref({} as SkuPopupLocaldata)
           color: '#27BA9B',
           borderColor: '#27BA9B',
           backgroundColor: '#E9F8F5',
-        }" />
+        }" @add-cart="onAddCart" />
 
       <!-- 基本信息 -->
       <view class="goods">
