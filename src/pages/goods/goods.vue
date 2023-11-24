@@ -3,11 +3,11 @@
 import { getGoodsByIdAPI } from '@/services/goods';
 import type { GoodsResult } from '@/types/goods';
 import { onLoad } from '@dcloudio/uni-app';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import AddressPanel from './components/AddressPanel.vue';
 import ServicePanel from './components/ServicePanel.vue';
 import PageSkeleton from './components/PageSkeleton.vue';
-import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import type { SkuPopupInstanceType, SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -56,6 +56,14 @@ const openSkuPopup = (val: SkuMode) => {
   // 修改按钮模式
   mode.value = val
 }
+
+// SKU组件实例
+const skuPopupRef = ref<SkuPopupInstanceType>()
+// 计算被选中的值
+const selectArrText = computed(() => {
+  // 当选择又取消后，数组包含多个空字符串，join后，为空格而非空字符串，需trim()去除该情况
+  return skuPopupRef.value?.selectArr?.join(' ').trim() || '请选择商品规格'
+})
 
 // 轮播图变化时
 const currentIndex = ref(0)
@@ -107,7 +115,11 @@ const localdata = ref({} as SkuPopupLocaldata)
     <scroll-view scroll-y class="viewport">
       <!-- SKU弹窗组件 -->
       <vk-data-goods-sku-popup v-model="isShowSku" :localdata="localdata" :mode="mode" add-cart-background-color="#FFA868"
-        buy-now-background-color="#27BA9B" />
+        buy-now-background-color="#27BA9B" ref="skuPopupRef" :actived-style="{
+          color: '#27BA9B',
+          borderColor: '#27BA9B',
+          backgroundColor: '#E9F8F5',
+        }" />
 
       <!-- 基本信息 -->
       <view class="goods">
@@ -139,7 +151,7 @@ const localdata = ref({} as SkuPopupLocaldata)
         <view class="action">
           <view class="item arrow">
             <text class="label">选择</text>
-            <text @tap="openSkuPopup(SkuMode.Both)" class="text ellipsis"> 请选择商品规格 </text>
+            <text @tap="openSkuPopup(SkuMode.Both)" class="text ellipsis"> {{ selectArrText }} </text>
           </view>
           <view @tap="openPopup('address')" class="item arrow">
             <text class="label">送至</text>
