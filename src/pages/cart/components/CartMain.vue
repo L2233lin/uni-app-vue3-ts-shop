@@ -6,6 +6,11 @@ import { onShow } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 import type { InputNumberBoxEvent } from '@/components/vk-data-input-number-box/vk-data-input-number-box'
 
+// 获取屏幕边界到安全区域距离
+const { safeAreaInsets } = uni.getSystemInfoSync()
+// pages.length为1时，为tabBar页，无需设置安全区域
+const pages = getCurrentPages(); //当前页面栈
+
 // 获取会员Store
 const memberStore = useMemberStore()
 
@@ -151,7 +156,7 @@ const gotoPayment = () => {
                 </navigator>
             </view>
             <!-- 吸底工具栏 -->
-            <view class="toolbar">
+            <view class="toolbar" :style="{ paddingBottom: pages.length === 1 ? 0 : safeAreaInsets?.bottom + 'px' }">
                 <text @tap="onChangeSelectedAll" class="all" :class="{ checked: isSelectedAll }">全选</text>
                 <text class="text">合计:</text>
                 <text class="amount">{{ selectedCartListMoney }}</text>
