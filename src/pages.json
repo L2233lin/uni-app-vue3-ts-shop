@@ -150,6 +150,8 @@
 				{
 					"path": "detail/detail",
 					"style": {
+						"navigationStyle": "custom", // 隐藏默认导航
+						"navigationBarTextStyle": "white",
 						"navigationBarTitleText": "订单详情"
 					}
 				}
