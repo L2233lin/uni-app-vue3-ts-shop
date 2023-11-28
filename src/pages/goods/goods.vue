@@ -117,6 +117,11 @@ onLoad(async () => {
 const isShowSku = ref(false)
 // 商品信息
 const localdata = ref({} as SkuPopupLocaldata)
+
+// 立即购买
+const onBuyNow = (ev: SkuPopupEvent) => {
+  uni.navigateTo({ url: `/pagesOrder/create/create?skuId=${ev._id}&count=${ev.buy_num}` })
+}
 </script>
 
 <template>
@@ -129,7 +134,7 @@ const localdata = ref({} as SkuPopupLocaldata)
           color: '#27BA9B',
           borderColor: '#27BA9B',
           backgroundColor: '#E9F8F5',
-        }" @add-cart="onAddCart" />
+        }" @add-cart="onAddCart" @buy-now="onBuyNow" />
 
       <!-- 基本信息 -->
       <view class="goods">
