@@ -3,6 +3,7 @@ import { useGuessList } from '@/composables'
 import {
   deleteMemberOrderAPI,
   getMemberOrderByIdAPI,
+  getMemberOrderCancelByIdAPI,
   getMemberOrderConsignmentByIdAPI,
   getMemberOrderLogisticsByIdAPI,
   putMemberOrderReceiptByIdAPI,
@@ -160,6 +161,24 @@ const onOrderDelete = () => {
       if (success.confirm) {
         await deleteMemberOrderAPI({ ids: [query.id] })
         uni.redirectTo({ url: '/pagesOrder/list/list' })
+      }
+    },
+  })
+}
+
+// 取消订单
+const onOrderCancel = () => {
+  uni.showModal({
+    content: '是否取消订单',
+    success: async (success) => {
+      if (success.confirm) {
+        const res = await getMemberOrderCancelByIdAPI(query.id, { cancelReason: reason.value })
+        // 更新订单信息
+        order.value = res.result
+        // 关闭弹窗
+        popup.value?.close!()
+        // 轻提示
+        uni.showToast({ icon: 'none', title: '订单取消成功' })
       }
     },
   })
@@ -363,7 +382,7 @@ const onOrderDelete = () => {
       </view>
       <view class="footer">
         <view class="button" @tap="popup?.close?.()">取消</view>
-        <view class="button primary">确认</view>
+        <view class="button primary" @tap="onOrderCancel">确认</view>
       </view>
     </view>
   </uni-popup>
