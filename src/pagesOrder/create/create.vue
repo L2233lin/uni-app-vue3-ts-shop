@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { getMemberOrderPreAPI, getMemberOrderPreNowAPI, getMemberOrderRepurchaseByIdAPI, postMemberOrderAPI } from '@/services/order';
-import { useAddressStore } from '@/stores';
-import type { OrderPreResult } from '@/types/order';
-import { onLoad } from '@dcloudio/uni-app';
+import {
+  getMemberOrderPreAPI,
+  getMemberOrderPreNowAPI,
+  getMemberOrderRepurchaseByIdAPI,
+  postMemberOrderAPI,
+} from '@/services/order'
+import { useAddressStore } from '@/stores'
+import type { OrderPreResult } from '@/types/order'
+import { onLoad } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 
 // 获取屏幕边界到安全区域距离
@@ -85,20 +90,35 @@ const onOrderSubmit = async () => {
 <template>
   <scroll-view scroll-y class="viewport">
     <!-- 收货地址 -->
-    <navigator v-if="selecteAddress" class="shipment" hover-class="none" url="/pagesMember/address/address?from=order">
+    <navigator
+      v-if="selecteAddress"
+      class="shipment"
+      hover-class="none"
+      url="/pagesMember/address/address?from=order"
+    >
       <view class="user"> {{ selecteAddress.receiver }} {{ selecteAddress.contact }} </view>
       <view class="address"> {{ selecteAddress.fullLocation }} {{ selecteAddress.address }} </view>
       <text class="icon icon-right"></text>
     </navigator>
-    <navigator v-else class="shipment" hover-class="none" url="/pagesMember/address/address?from=order">
+    <navigator
+      v-else
+      class="shipment"
+      hover-class="none"
+      url="/pagesMember/address/address?from=order"
+    >
       <view class="address"> 请选择收货地址 </view>
       <text class="icon icon-right"></text>
     </navigator>
 
     <!-- 商品信息 -->
     <view class="goods">
-      <navigator v-for="item in orderPre?.goods" :key="item.skuId" :url="`/pages/goods/goods?id=${item.id}`" class="item"
-        hover-class="none">
+      <navigator
+        v-for="item in orderPre?.goods"
+        :key="item.skuId"
+        :url="`/pages/goods/goods?id=${item.id}`"
+        class="item"
+        hover-class="none"
+      >
         <image class="picture" :src="item.picture" />
         <view class="meta">
           <view class="name ellipsis"> {{ item.name }} </view>
@@ -122,7 +142,12 @@ const onOrderSubmit = async () => {
       </view>
       <view class="item">
         <text class="text">订单备注</text>
-        <input class="input" :cursor-spacing="30" placeholder="选题，建议留言前先与商家沟通确认" v-model="buyerMessage" />
+        <input
+          class="input"
+          :cursor-spacing="30"
+          placeholder="选题，建议留言前先与商家沟通确认"
+          v-model="buyerMessage"
+        />
       </view>
     </view>
 
@@ -144,7 +169,9 @@ const onOrderSubmit = async () => {
     <view class="total-pay symbol">
       <text class="number">{{ orderPre?.summary.totalPayPrice.toFixed(2) }}</text>
     </view>
-    <view class="button" :class="{ disabled: !selecteAddress?.id }" @tap="onOrderSubmit"> 提交订单 </view>
+    <view class="button" :class="{ disabled: !selecteAddress?.id }" @tap="onOrderSubmit">
+      提交订单
+    </view>
   </view>
 </template>
 
@@ -168,7 +195,8 @@ page {
   padding: 30rpx 30rpx 30rpx 84rpx;
   font-size: 26rpx;
   border-radius: 10rpx;
-  background: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png) 20rpx center / 50rpx no-repeat #fff;
+  background: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png)
+    20rpx center / 50rpx no-repeat #fff;
   position: relative;
 
   .icon {

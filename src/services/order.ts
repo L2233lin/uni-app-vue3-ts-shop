@@ -4,25 +4,25 @@ import { http } from '@/utils/http'
  * 填写订单-获取预付订单
  */
 export const getMemberOrderPreAPI = () => {
-    return http<OrderPreResult>({
-        method: 'GET',
-        url: '/member/order/pre',
-    })
+  return http<OrderPreResult>({
+    method: 'GET',
+    url: '/member/order/pre',
+  })
 }
 
 /**
  * 填写订单-获取立即购买订单
  */
 export const getMemberOrderPreNowAPI = (data: {
-    skuId: string
-    count: string
-    addressId?: string
+  skuId: string
+  count: string
+  addressId?: string
 }) => {
-    return http<OrderPreResult>({
-        method: 'GET',
-        url: '/member/order/pre/now',
-        data,
-    })
+  return http<OrderPreResult>({
+    method: 'GET',
+    url: '/member/order/pre/now',
+    data,
+  })
 }
 
 /**
@@ -30,11 +30,11 @@ export const getMemberOrderPreNowAPI = (data: {
  * @param data 请求参数
  */
 export const postMemberOrderAPI = (data: OrderCreateParams) => {
-    return http<{ id: string }>({
-        method: 'POST',
-        url: '/member/order',
-        data,
-    })
+  return http<{ id: string }>({
+    method: 'POST',
+    url: '/member/order',
+    data,
+  })
 }
 
 /**
@@ -42,10 +42,10 @@ export const postMemberOrderAPI = (data: OrderCreateParams) => {
  * @param id 订单id
  */
 export const getMemberOrderByIdAPI = (id: string) => {
-    return http<OrderResult>({
-        method: 'GET',
-        url: `/member/order/${id}`,
-    })
+  return http<OrderResult>({
+    method: 'GET',
+    url: `/member/order/${id}`,
+  })
 }
 
 /**
@@ -53,8 +53,8 @@ export const getMemberOrderByIdAPI = (id: string) => {
  * @param id 订单id
  */
 export const getMemberOrderRepurchaseByIdAPI = (id: string) => {
-    return http<OrderPreResult>({
-        method: 'GET',
-        url: `/member/order/repurchase/${id}`,
-    })
+  return http<OrderPreResult>({
+    method: 'GET',
+    url: `/member/order/repurchase/${id}`,
+  })
 }

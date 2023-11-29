@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { deleteMemberAddressByIdAPI, getMemberAddressAPI } from '@/services/address'
-import { useAddressStore } from '@/stores';
+import { useAddressStore } from '@/stores'
 import type { AddressItem } from '@/types/address'
 import { onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -59,8 +59,13 @@ const onChangeAddress = (item: AddressItem) => {
               </view>
               <view class="locate">{{ item.fullLocation }} {{ item.address }}</view>
               <!-- H5 端需添加 .prevent 阻止链接的默认行为 -->
-              <navigator class="edit" hover-class="none" :url="`/pagesMember/address-form/address-form?id=${item.id}`"
-                @tap.stop="() => { }" @tap.prevent="() => { }">
+              <navigator
+                class="edit"
+                hover-class="none"
+                :url="`/pagesMember/address-form/address-form?id=${item.id}`"
+                @tap.stop="() => {}"
+                @tap.prevent="() => {}"
+              >
                 修改
               </navigator>
             </view>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useGuessList } from '@/composables'
-import { getMemberOrderByIdAPI } from '@/services/order';
-import type { OrderResult } from '@/types/order';
-import { onLoad, onReady } from '@dcloudio/uni-app';
-import { ref } from 'vue';
-import { OrderState, orderStateList } from '@/utils/constants';
+import { getMemberOrderByIdAPI } from '@/services/order'
+import type { OrderResult } from '@/types/order'
+import { onLoad, onReady } from '@dcloudio/uni-app'
+import { ref } from 'vue'
+import { OrderState, orderStateList } from '@/utils/constants'
 import PageSkeleton from './components/PageSkeleton.vue'
 
 // 获取屏幕边界到安全区域距离
@@ -93,13 +93,23 @@ const onTimeup = () => {
   <!-- 自定义导航栏: 默认透明不可见, scroll-view 滚动到 50 时展示 -->
   <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
     <view class="wrap">
-      <navigator v-if="pages.length > 1" open-type="navigateBack" class="back icon-left"></navigator>
+      <navigator
+        v-if="pages.length > 1"
+        open-type="navigateBack"
+        class="back icon-left"
+      ></navigator>
       <navigator v-else url="/pages/index/index" open-type="switchTab" class="back icon-home">
       </navigator>
       <view class="title">订单详情</view>
     </view>
   </view>
-  <scroll-view enable-back-to-top scroll-y class="viewport" id="scroller" @scrolltolower="onScrolltolower">
+  <scroll-view
+    enable-back-to-top
+    scroll-y
+    class="viewport"
+    id="scroller"
+    @scrolltolower="onScrolltolower"
+  >
     <template v-if="order">
       <!-- 订单状态 -->
       <view class="overview" :style="{ paddingTop: safeAreaInsets!.top + 20 + 'px' }">
@@ -110,8 +120,14 @@ const onTimeup = () => {
             <text class="money">应付金额: ¥ 99.00</text>
             <text class="time">支付剩余</text>
             <!-- 倒计时组件 -->
-            <uni-countdown :second="order.countdown" color="#fff" splitor-color="#fff" :show-day="false"
-              :show-colon="false" @timeup="onTimeup" />
+            <uni-countdown
+              :second="order.countdown"
+              color="#fff"
+              splitor-color="#fff"
+              :show-day="false"
+              :show-colon="false"
+              @timeup="onTimeup"
+            />
           </view>
           <view class="button">去支付</view>
         </template>
@@ -120,7 +136,11 @@ const onTimeup = () => {
           <!-- 订单状态文字 -->
           <view class="status"> {{ orderStateList[order.orderState].text }} </view>
           <view class="button-group">
-            <navigator class="button" :url="`/pagesOrder/create/create?orderId=${query.id}`" hover-class="none">
+            <navigator
+              class="button"
+              :url="`/pagesOrder/create/create?orderId=${query.id}`"
+              hover-class="none"
+            >
               再次购买
             </navigator>
             <!-- 待发货状态：模拟发货,开发期间使用,用于修改订单状态为已发货 -->
@@ -147,9 +167,17 @@ const onTimeup = () => {
       <!-- 商品信息 -->
       <view class="goods">
         <view class="item">
-          <navigator class="navigator" v-for="item in 2" :key="item" :url="`/pages/goods/goods?id=${item}`"
-            hover-class="none">
-            <image class="cover" src="https://yanxuan-item.nosdn.127.net/c07edde1047fa1bd0b795bed136c2bb2.jpg"></image>
+          <navigator
+            class="navigator"
+            v-for="item in 2"
+            :key="item"
+            :url="`/pages/goods/goods?id=${item}`"
+            hover-class="none"
+          >
+            <image
+              class="cover"
+              src="https://yanxuan-item.nosdn.127.net/c07edde1047fa1bd0b795bed136c2bb2.jpg"
+            ></image>
             <view class="meta">
               <view class="name ellipsis">ins风小碎花泡泡袖衬110-160cm</view>
               <view class="type">藏青小花， 130</view>
@@ -209,15 +237,23 @@ const onTimeup = () => {
         </template>
         <!-- 其他订单状态:按需展示按钮 -->
         <template v-else>
-          <navigator class="button secondary" :url="`/pagesOrder/create/create?orderId=${query.id}`" hover-class="none">
+          <navigator
+            class="button secondary"
+            :url="`/pagesOrder/create/create?orderId=${query.id}`"
+            hover-class="none"
+          >
             再次购买
           </navigator>
           <!-- 待收货状态: 展示确认收货 -->
-          <view v-if="order.orderState === OrderState.DaiShouHuo" class="button primary"> 确认收货 </view>
+          <view v-if="order.orderState === OrderState.DaiShouHuo" class="button primary">
+            确认收货
+          </view>
           <!-- 待评价状态: 展示去评价 -->
           <view v-if="order.orderState === OrderState.DaiPingJia" class="button"> 去评价 </view>
           <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-          <view v-if="order.orderState >= OrderState.DaiPingJia" class="button delete"> 删除订单 </view>
+          <view v-if="order.orderState >= OrderState.DaiPingJia" class="button delete">
+            删除订单
+          </view>
         </template>
       </view>
     </template>

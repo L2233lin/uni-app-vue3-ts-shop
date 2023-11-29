@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getMemberProfileAPI, putMemberProfileAPI } from '@/services/profile'
-import { useMemberStore } from '@/stores';
+import { useMemberStore } from '@/stores'
 import type { Gender, ProfileDetail } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -137,15 +137,26 @@ const onSubmit = async () => {
         </view>
         <view class="form-item">
           <text class="label">出生日期</text>
-          <picker class="picker" mode="date" :value="profile?.birthday" @change="onBirthdayChange" start="1900-01-01"
-            :end="new Date()">
+          <picker
+            class="picker"
+            mode="date"
+            :value="profile?.birthday"
+            @change="onBirthdayChange"
+            start="1900-01-01"
+            :end="new Date()"
+          >
             <view v-if="profile?.birthday">{{ profile?.birthday }}</view>
             <view class="placeholder" v-else>请选择日期</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" :value="profile?.fullLocation?.split(' ')" @change="onFullLocationChange" mode="region">
+          <picker
+            class="picker"
+            :value="profile?.fullLocation?.split(' ')"
+            @change="onFullLocationChange"
+            mode="region"
+          >
             <view v-if="profile?.fullLocation">{{ profile.fullLocation }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>

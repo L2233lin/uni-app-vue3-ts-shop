@@ -81,15 +81,32 @@ const onScrolltolower = async () => {
     </view>
     <!-- 推荐选项 -->
     <view class="tabs">
-      <text v-for="(item, index) in subTypes" :key="item.id" class="text" :class="{ active: index === activeIndex }"
-        @tap="activeIndex = index">{{ item.title }}</text>
+      <text
+        v-for="(item, index) in subTypes"
+        :key="item.id"
+        class="text"
+        :class="{ active: index === activeIndex }"
+        @tap="activeIndex = index"
+        >{{ item.title }}</text
+      >
     </view>
     <!-- 推荐列表 -->
-    <scroll-view v-for="(item, index) in subTypes" :key="item.id" v-show="activeIndex === index" scroll-y
-      class="scroll-view" @scrolltolower="onScrolltolower">
+    <scroll-view
+      v-for="(item, index) in subTypes"
+      :key="item.id"
+      v-show="activeIndex === index"
+      scroll-y
+      class="scroll-view"
+      @scrolltolower="onScrolltolower"
+    >
       <view class="goods">
-        <navigator hover-class="none" class="navigator" v-for="goods in item.goodsItems.items" :key="goods.id"
-          :url="`/pages/goods/goods?id=${goods.id}`">
+        <navigator
+          hover-class="none"
+          class="navigator"
+          v-for="goods in item.goodsItems.items"
+          :key="goods.id"
+          :url="`/pages/goods/goods?id=${goods.id}`"
+        >
           <image class="thumb" :src="goods.picture"></image>
           <view class="name ellipsis">{{ goods.name }}</view>
           <view class="price">

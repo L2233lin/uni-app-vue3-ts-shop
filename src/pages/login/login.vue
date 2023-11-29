@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/services/login';
-import { useMemberStore } from '@/stores/modules/member';
-import type { LoginResult } from '@/types/member';
+import { postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/services/login'
+import { useMemberStore } from '@/stores/modules/member'
+import type { LoginResult } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
 
 // 获取 code 登录凭证
@@ -41,7 +41,9 @@ const loginSuccess = (profile: LoginResult) => {
 <template>
   <view class="viewport">
     <view class="logo">
-      <image src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/logo_icon.png"></image>
+      <image
+        src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/logo_icon.png"
+      ></image>
     </view>
     <view class="login">
       <!-- 网页端表单登录 -->

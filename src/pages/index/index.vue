@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { BannerItem, CategoryItem, HotItem } from '@/types/home';
+import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
 import CustomNavbar from './components/CustomNavbar.vue'
 import CategoryPanel from './components/CategoryPanel.vue'
-import HotPanel from './components/HotPanel.vue'
+import HotPanel from './components/hotPanel.vue'
 import PageSkeleton from './components/PageSkeleton.vue'
-import { ref } from 'vue';
-import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home';
-import { onLoad } from '@dcloudio/uni-app';
-import { useGuessList } from '@/composables';
-
+import { ref } from 'vue'
+import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
+import { onLoad } from '@dcloudio/uni-app'
+import { useGuessList } from '@/composables'
 
 // 获取轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -60,8 +59,14 @@ const onRefresherrefresh = async () => {
 <template>
   <!-- 自定义导航栏 -->
   <CustomNavbar />
-  <scroll-view refresher-enabled @refresherrefresh="onRefresherrefresh" :refresher-triggered="isTriggered" scroll-y
-    class="scroll-view" @scrolltolower="onScrolltolower">
+  <scroll-view
+    refresher-enabled
+    @refresherrefresh="onRefresherrefresh"
+    :refresher-triggered="isTriggered"
+    scroll-y
+    class="scroll-view"
+    @scrolltolower="onScrolltolower"
+  >
     <PageSkeleton v-if="isLoading" />
     <template v-else>
       <!-- 自定义轮播图 -->

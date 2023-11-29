@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { getMemberAddressByIdAPI, postMemberAddressAPI, putMemberAddressByIdAPI } from '@/services/address'
-import { onLoad } from '@dcloudio/uni-app';
+import {
+  getMemberAddressByIdAPI,
+  postMemberAddressAPI,
+  putMemberAddressByIdAPI,
+} from '@/services/address'
+import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
 // 表单数据
@@ -25,7 +29,7 @@ uni.setNavigationBarTitle({ title: query.id ? '修改地址' : '新建地址' })
 
 // 收集所在地区
 const onRegionChange: UniHelper.RegionPickerOnChange = (ev) => {
-  console.log(ev);
+  console.log(ev)
 
   // 省市区(前端展示)
   form.value.fullLocation = ev.detail.value.join(' ')
@@ -113,11 +117,21 @@ onLoad(() => {
       </uni-forms-item>
       <uni-forms-item name="contact" class="form-item">
         <text class="label">手机号码</text>
-        <input class="input" placeholder="请填写收货人手机号码" :maxlength="11" v-model="form.contact" />
+        <input
+          class="input"
+          placeholder="请填写收货人手机号码"
+          :maxlength="11"
+          v-model="form.contact"
+        />
       </uni-forms-item>
       <uni-forms-item name="fullLocation" class="form-item">
         <text class="label">所在地区</text>
-        <picker class="picker" @change="onRegionChange" mode="region" :value="form.fullLocation.split(' ')">
+        <picker
+          class="picker"
+          @change="onRegionChange"
+          mode="region"
+          :value="form.fullLocation.split(' ')"
+        >
           <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
@@ -128,7 +142,12 @@ onLoad(() => {
       </uni-forms-item>
       <view class="form-item">
         <label class="label">设为默认地址</label>
-        <switch class="switch" color="#27ba9b" @change="onSwitchChange" :checked="form.isDefault === 1" />
+        <switch
+          class="switch"
+          color="#27ba9b"
+          @change="onSwitchChange"
+          :checked="form.isDefault === 1"
+        />
       </view>
     </uni-forms>
   </view>

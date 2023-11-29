@@ -1,14 +1,18 @@
 // src/pages/goods/goods.vue
 <script setup lang="ts">
-import { getGoodsByIdAPI } from '@/services/goods';
-import type { GoodsResult } from '@/types/goods';
-import { onLoad } from '@dcloudio/uni-app';
-import { computed, ref } from 'vue';
-import AddressPanel from './components/AddressPanel.vue';
-import ServicePanel from './components/ServicePanel.vue';
-import PageSkeleton from './components/PageSkeleton.vue';
-import type { SkuPopupEvent, SkuPopupInstanceType, SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
-import { postMemberCartAPI } from '@/services/cart';
+import { getGoodsByIdAPI } from '@/services/goods'
+import type { GoodsResult } from '@/types/goods'
+import { onLoad } from '@dcloudio/uni-app'
+import { computed, ref } from 'vue'
+import AddressPanel from './components/AddressPanel.vue'
+import ServicePanel from './components/ServicePanel.vue'
+import PageSkeleton from './components/PageSkeleton.vue'
+import type {
+  SkuPopupEvent,
+  SkuPopupInstanceType,
+  SkuPopupLocaldata,
+} from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import { postMemberCartAPI } from '@/services/cart'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -22,7 +26,7 @@ const query = defineProps<{
 const goods = ref<GoodsResult>()
 const getGoodsByIdData = async () => {
   const res = await getGoodsByIdAPI(query.id)
-  console.log(res);
+  console.log(res)
 
   goods.value = res.result
   // SKU组件所需格式
@@ -68,7 +72,7 @@ const selectArrText = computed(() => {
 
 // 加入购物车事件
 const onAddCart = async (ev: SkuPopupEvent) => {
-  console.log(ev);
+  console.log(ev)
 
   await postMemberCartAPI({ skuId: ev._id, count: ev.buy_num })
   uni.showToast({ title: '添加成功' })
@@ -129,12 +133,21 @@ const onBuyNow = (ev: SkuPopupEvent) => {
   <template v-else>
     <scroll-view scroll-y class="viewport">
       <!-- SKU弹窗组件 -->
-      <vk-data-goods-sku-popup v-model="isShowSku" :localdata="localdata" :mode="mode" add-cart-background-color="#FFA868"
-        buy-now-background-color="#27BA9B" ref="skuPopupRef" :actived-style="{
+      <vk-data-goods-sku-popup
+        v-model="isShowSku"
+        :localdata="localdata"
+        :mode="mode"
+        add-cart-background-color="#FFA868"
+        buy-now-background-color="#27BA9B"
+        ref="skuPopupRef"
+        :actived-style="{
           color: '#27BA9B',
           borderColor: '#27BA9B',
           backgroundColor: '#E9F8F5',
-        }" @add-cart="onAddCart" @buy-now="onBuyNow" />
+        }"
+        @add-cart="onAddCart"
+        @buy-now="onBuyNow"
+      />
 
       <!-- 基本信息 -->
       <view class="goods">
@@ -166,7 +179,9 @@ const onBuyNow = (ev: SkuPopupEvent) => {
         <view class="action">
           <view class="item arrow">
             <text class="label">选择</text>
-            <text @tap="openSkuPopup(SkuMode.Both)" class="text ellipsis"> {{ selectArrText }} </text>
+            <text @tap="openSkuPopup(SkuMode.Both)" class="text ellipsis">
+              {{ selectArrText }}
+            </text>
           </view>
           <view @tap="openPopup('address')" class="item arrow">
             <text class="label">送至</text>
@@ -193,7 +208,12 @@ const onBuyNow = (ev: SkuPopupEvent) => {
             </view>
           </view>
           <!-- 图片详情 -->
-          <image v-for="item in goods?.details.pictures" :key="item" mode="widthFix" :src="item"></image>
+          <image
+            v-for="item in goods?.details.pictures"
+            :key="item"
+            mode="widthFix"
+            :src="item"
+          ></image>
         </view>
       </view>
 
@@ -203,8 +223,13 @@ const onBuyNow = (ev: SkuPopupEvent) => {
           <text>同类推荐</text>
         </view>
         <view class="content">
-          <navigator v-for="item in goods?.similarProducts" :key="item.id" class="goods" hover-class="none"
-            :url="`/pages/goods/goods?id=${item.id}`">
+          <navigator
+            v-for="item in goods?.similarProducts"
+            :key="item.id"
+            class="goods"
+            hover-class="none"
+            :url="`/pages/goods/goods?id=${item.id}`"
+          >
             <image class="image" mode="aspectFill" :src="item.picture"></image>
             <view class="name ellipsis">{{ item.name }}</view>
             <view class="price">
@@ -508,7 +533,7 @@ page {
   .buttons {
     display: flex;
 
-    &>view {
+    & > view {
       width: 220rpx;
       text-align: center;
       line-height: 72rpx;

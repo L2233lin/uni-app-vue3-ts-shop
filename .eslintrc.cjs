@@ -27,16 +27,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'vue/max-attributes-per-line': [
-      2,
-      {
-        singleline: 10, // 设置单行标签的最大属性数
-        multiline: {
-          max: 1, // 设置多行标签的最大属性数
-          allowFirstLine: false, // 不允许属性都放在第一行
-        },
-      },
-    ],
     'prettier/prettier': [
       'warn',
       {
