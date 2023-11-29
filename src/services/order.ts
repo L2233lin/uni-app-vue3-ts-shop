@@ -47,3 +47,14 @@ export const getMemberOrderByIdAPI = (id: string) => {
         url: `/member/order/${id}`,
     })
 }
+
+/**
+ * 填写订单-再次购买
+ * @param id 订单id
+ */
+export const getMemberOrderRepurchaseByIdAPI = (id: string) => {
+    return http<OrderPreResult>({
+        method: 'GET',
+        url: `/member/order/repurchase/${id}`,
+    })
+}
