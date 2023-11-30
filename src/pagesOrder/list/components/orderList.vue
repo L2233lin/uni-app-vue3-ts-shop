@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OrderState } from '@/utils/constants'
 import { orderStateList } from '@/utils/constants'
-import { getMemberOrderAPI } from '@/services/order'
+import { getMemberOrderAPI, putMemberOrderReceiptByIdAPI } from '@/services/order'
 import type { OrderItem } from '@/types/order'
 import type { OrderListParams } from '@/types/order'
 import { onMounted, ref } from 'vue'
@@ -49,6 +49,22 @@ const onOrderPay = async (id: string) => {
   // 更新订单状态
   const order = orderList.value.find((v) => v.id === id)
   order!.orderState = OrderState.DaiFaHuo
+}
+
+// 确认收货
+const onOrderConfirm = (id: string) => {
+  // 二次确认弹窗
+  uni.showModal({
+    content: '为保障您的权益，请收到货并确认无误后，再确认收货',
+    success: async (success) => {
+      if (success.confirm) {
+        const res = await putMemberOrderReceiptByIdAPI(id)
+        // 确认成功，更新为待评价
+        const order = orderList.value.find((v) => v.id === id)
+        order!.orderState = OrderState.DaiPingJia
+      }
+    },
+  })
 }
 </script>
 <template>
@@ -99,7 +115,10 @@ const onOrderPay = async (id: string) => {
             再次购买
           </navigator>
           <!-- 待收货状态: 展示确认收货 -->
-          <view v-if="order.orderState === OrderState.DaiShouHuo" class="button primary"
+          <view
+            v-if="order.orderState === OrderState.DaiShouHuo"
+            class="button primary"
+            @tap="onOrderConfirm(order.id)"
             >确认收货</view
           >
         </template>
